@@ -1,9 +1,12 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { Tooltip } from "react-tooltip"
+// import { Tooltip } from "react-tooltip"
 import ReactDOMServer from 'react-dom/server';
 import Image from "next/image";
+import Badge from "../atoms/Badge";
+import Tooltip from "../atoms/Tooltip";
+import TextPreview from "../atoms/TextPreview";
 
 export default function CountryDetail({ country = '', classes }) {
   const [detail, setDetail] = useState(null)
@@ -50,7 +53,7 @@ export default function CountryDetail({ country = '', classes }) {
   }
   const getCurrencyCode = (currency) => {
     if (!currency) return
-    
+
     return Object.keys(currency)[0]
   }
   
@@ -71,21 +74,21 @@ export default function CountryDetail({ country = '', classes }) {
       {detail && (
         <div className="flex gap-1">
           {detail?.altSpellings?.map((item, index) => (
-            <span className="badge-primary w-fit px-3 py-1 rounded-full" key={index}>{item}</span>
+            <Badge key={index}>{item}</Badge>
           ))}
         </div>
       )}
       <div className="grid grid-cols-2 gap-5">
         <div className="col-span-1">
-          <div className="card border">
+          <div className="card border h-full">
             <div className="card-body">
               <p className="text-lg">LatLong</p>
-              <h2 className="text-3xl text-primary font-semibold">{detail?.latlng?.join(', ')}</h2>
+              <TextPreview>{detail?.latlng?.join(', ')}</TextPreview>
             </div>
           </div>
         </div>
         <div className="col-span-1">
-          <div className="card border">
+          <div className="card border h-full">
             <div className="card-body">
               <ul>
                 <li>Capital: <span className="font-semibold">{detail?.capital?.join(', ')}</span></li>
@@ -97,53 +100,33 @@ export default function CountryDetail({ country = '', classes }) {
         </div>
         <div className="col-span-1">
           <p className="text-lg">Calling Code</p>
-          <h2 className="text-3xl text-primary font-semibold">{getCallingCode(detail?.idd)}</h2>
+          <TextPreview>{getCallingCode(detail?.idd)}</TextPreview>
           <p>
-            <a 
-              href="#" 
-              className="text-primary"
-              data-tooltip-html={ReactDOMServer.renderToStaticMarkup(
-                <>
-                  <ul>
-                    {code?.map((item, index) => (
-                      <li key={index}>{item.name}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-              data-tooltip-id="tooltip-code">
-                {code?.length} {code?.length == 1 ? 'country' : 'countries'}
-            </a>
+            <Tooltip id="tooltip-code" text={`${code?.length} ${code?.length == 1 ? 'country' : 'countries'}`}>
+              <ul>
+                {code?.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
+              </ul>
+            </Tooltip>
             {' '}
             with this calling code
           </p>
-          <Tooltip
-            id="tooltip-code"
-          />
         </div>
         <div className="col-span-1">
           <p className="text-lg">Currency</p>
-          <h2 className="text-3xl text-primary font-semibold">{getCurrencyCode(detail?.currencies)}</h2>
+          <TextPreview>{getCurrencyCode(detail?.currencies)}</TextPreview>
           <p>
-            <a 
-              href="#" 
-              className="text-primary"
-              data-tooltip-html={ReactDOMServer.renderToStaticMarkup(
-                <ul>
-                  {currency?.map((item, index) => (
-                    <li key={index}>{item.name}</li>
-                  ))}
-                </ul>
-              )}
-              data-tooltip-id="tooltip-currency">
-                {currency?.length} {currency?.length == 1 ? 'country' : 'countries'}
-            </a>
+            <Tooltip id="tooltip-currency" text={`${currency?.length} ${currency?.length == 1 ? 'country' : 'countries'}`}>
+              <ul>
+                {currency?.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
+              </ul>
+            </Tooltip>
             {' '}
-            with this calling code
+            with this currency
           </p>
-          <Tooltip
-            id="tooltip-currency"
-          />
         </div>
       </div>
     </section>
