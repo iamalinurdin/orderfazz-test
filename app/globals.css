@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card.map {
+  background: url(../public/globe.svg);
+  background-size: 50% 200%;
+  background-repeat: no-repeat;
+  background-position: right top;
+}

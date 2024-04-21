@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react"
-// import { Tooltip } from "react-tooltip"
-import ReactDOMServer from 'react-dom/server';
 import Image from "next/image";
 import Badge from "../atoms/Badge";
 import Tooltip from "../atoms/Tooltip";
 import TextPreview from "../atoms/TextPreview";
+import Card from "../atoms/Card";
 
 export default function CountryDetail({ country = '', classes }) {
   const [detail, setDetail] = useState(null)
@@ -80,23 +79,19 @@ export default function CountryDetail({ country = '', classes }) {
       )}
       <div className="grid grid-cols-2 gap-5">
         <div className="col-span-1">
-          <div className="card border h-full">
-            <div className="card-body">
-              <p className="text-lg">LatLong</p>
-              <TextPreview>{detail?.latlng?.join(', ')}</TextPreview>
-            </div>
-          </div>
+          <Card classes="border h-full map">
+            <p className="text-lg">LatLong</p>
+            <TextPreview>{detail?.latlng?.join(', ')}</TextPreview>
+          </Card>
         </div>
         <div className="col-span-1">
-          <div className="card border h-full">
-            <div className="card-body">
-              <ul>
-                <li>Capital: <span className="font-semibold">{detail?.capital?.join(', ')}</span></li>
-                <li>Region: <span className="font-semibold">{detail?.continents?.join(', ')}</span></li>
-                <li>Subregion: <span className="font-semibold">{detail?.subregion}</span></li>
-              </ul>
-            </div>
-          </div>
+          <Card classes="border">
+            <ul>
+              <li>Capital: <span className="font-semibold">{detail?.capital?.join(', ')}</span></li>
+              <li>Region: <span className="font-semibold">{detail?.continents?.join(', ')}</span></li>
+              <li>Subregion: <span className="font-semibold">{detail?.subregion}</span></li>
+            </ul>
+          </Card>
         </div>
         <div className="col-span-1">
           <p className="text-lg">Calling Code</p>
