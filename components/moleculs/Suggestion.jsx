@@ -6,15 +6,17 @@ import Link from "next/link";
 
 export default function Suggestion() {
   const [country, setCountry] = useState('')
-  const [countries, setCountries] = useState()
+  const [countries, setCountries] = useState(null)
   const fetchCountries = async (country) => {
-    setCountries([])
-    
+    setCountries(null)
+
     try {
-      const request = await fetch(`https://restcountries.com/v3.1/name/${country}`)
+      const request = await fetch(`https://restcountries.com/v3.1/name/${country}`, {
+        cache: 'no-store'
+      })
       const response = await request.json()
 
-      setCountries(response)
+      setCountries(response.splice(0, 5))
     } catch (error) {
       console.log(error)
     }
